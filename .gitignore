@@ -6,3 +6,5 @@
 /Funciones.ipynb 
 # ignorar carpeta 
 __pycache__/
+# ignorar gitignore
+/.gitignore
