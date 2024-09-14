@@ -1,6 +1,4 @@
 # ignorar el entorno
 /venv
-# ignorar archivo 'Funciones.ipynb'
-/Funciones.ipynb 
 # ignorar carpeta 
 __pycache__/
