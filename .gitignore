@@ -1,0 +1,8 @@
+# ignorar el entorno
+/venv
+# ignorar datasets en crudo
+/Movies 
+# ignorar archivo 'Funciones.ipynb'
+/Funciones.ipynb 
+# ignorar carpeta 
+__pycache__/
