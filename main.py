@@ -13,7 +13,7 @@ app = FastAPI()
 
 ## Función 'cantidad_filmaciones_mes( Mes )'
 
-df_movies_fc = pd.read_parquet(r'Movies\df_movies_mod.parquet', engine='auto')
+df_movies_fc = pd.read_parquet(r'C:\Users\debor\Desktop\PROYECTO1\Movies\df_movies_mod.parquet', engine='auto')
 
 # Se crea un diccionario para relacionar los meses en letras a sus correspondientes números
 meses_letras = {
