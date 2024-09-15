@@ -3,11 +3,15 @@ import pandas as pd
 import numpy as np
 import ast
 import calendar
+import matplotlib.pyplot as plt
+import seaborn as sns
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+from wordcloud import WordCloud
 
 app = FastAPI()
 
 # uvicorn main:app --reload
-
 
 
 
@@ -165,3 +169,62 @@ def get_director(nombre_director):
     
     return result
 
+## Función de recomendación
+
+df_movies_modelo = pd.read_parquet(r'Movies\df_movies_mod.parquet')
+
+""" 
+Se conviereten textos en una matriz numérica basandose en la importancia 
+(según su frecuencia) de cada palabra.
+
+Cada fila de la matriz que devuelve corresponde a un nombre de película, y 
+cada columna a una palabra de ese nombre con el valor correspondiente a 
+la importancia de la misma. --stop_words='english'
+
+    """
+    
+vectorizacion = TfidfVectorizer()
+matriz = vectorizacion.fit_transform(df_movies_modelo['title'])
+
+# Se crea una matriz con las caracteristicas que considero son las necesarias para el modelo de recomendación
+caracteristicas = np.column_stack([matriz.toarray(), df_movies_modelo['popularity'], df_movies_modelo['vote_count']])
+
+df_movies_modelo = df_movies_modelo.reset_index(drop=True)
+
+# Se realiza el cálculo de similitud del coseno
+similitud_coseno = cosine_similarity(caracteristicas)
+
+"""Esta función devuelve 5 peliculas recomendadas basada en la similitud del coseno
+    
+    - Si la pelicula ingresada no está en la base de datos, devuelve el correspondiente mensaje
+    - Se busca en el df el indice de la pelicula ingresada.
+    - Se crea una lista de tuplas. cada una de ella contiene el indice de una película y su puntaje 
+    de similitud con respecto al título ingresado, y las ordena de forma descendente
+    - Se va a iterar sobre cada una se esas tuplas en busca de los índices de laspelis
+    mas similares (sin repetirlas) hasta llegar a 5. 
+    
+    """
+def recomendacion(titulo, n_recomendaciones=5):
+    if titulo not in df_movies_modelo['title'].values:
+        return f"¡Lo siento! La película '{titulo}' no se encuentra, por favor intente con otro título."
+    indice = df_movies_modelo[df_movies_modelo['title'] == titulo].index[0]
+    
+    indice = df_movies_modelo[df_movies_modelo['title'] == titulo].index[0]
+
+    similitudes = list(enumerate(similitud_coseno[indice]))
+    similitudes = sorted(similitudes, key=lambda x: x[1], reverse=True)
+    
+    indices_similares = []
+    titulos_recomendados = set()
+    for i in similitudes:
+        if i[0] != indice and df_movies_modelo['title'].iloc[i[0]] not in titulos_recomendados:
+            indices_similares.append(i[0])
+            titulos_recomendados.add(df_movies_modelo['title'].iloc[i[0]])
+        if len(indices_similares) >= n_recomendaciones:
+            break
+    
+    return df_movies_modelo['title'].iloc[indices_similares].tolist()
+
+@app.get("/recomendar/{titulo}")
+def recomendar_peliculas(titulo: str, n_recomendaciones: int = 5):
+    return recomendacion(titulo, n_recomendaciones)
