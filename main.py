@@ -171,7 +171,7 @@ def get_director(nombre_director):
 
 ## Función de recomendación
 
-df_movies_modelo = pd.read_parquet(r'Movies\df_movies_mod.parquet')
+df_movies_modelo = pd.read_parquet(r'Movies/df_movies_modelo.parquet')
 
 """ 
 Se conviereten textos en una matriz numérica basandose en la importancia 
