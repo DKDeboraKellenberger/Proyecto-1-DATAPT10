@@ -17,7 +17,7 @@ app = FastAPI()
 
 ## Función 'cantidad_filmaciones_mes( Mes )'
 
-df_movies_fc = pd.read_parquet(r'Movies\df_movies_mod.parquet', engine='auto')
+df_movies_fc = pd.read_parquet(r'Movies/df_movies_mod.parquet', engine='auto')
 
 # Se crea un diccionario para relacionar los meses en letras a sus correspondientes números
 meses_letras = {
@@ -111,7 +111,7 @@ def votos_titulo(titulo):
 
 ## Función 'get_actor(nombre_actor)'
 
-df_actor_fc = pd.read_parquet(r'Movies\df_credits_actor.parquet', engine='auto')
+df_actor_fc = pd.read_parquet(r'Movies/df_credits_actor.parquet', engine='auto')
 
 """Esta función filtra el df en busca de las peliculas en las que actúa el actor
 (argumento de fc), si no está, devuelve un mje. Para obtener el retorno se debe
@@ -141,7 +141,7 @@ def get_actor(nombre_actor):
 
 ## Función 'get_director(nombre_director)'
 
-df_director_fc = pd.read_parquet(r'Movies\df_credits_director.parquet', engine='auto')
+df_director_fc = pd.read_parquet(r'Movies/df_credits_director.parquet', engine='auto')
 
 
 """Esta función filtra el df en busca de las peliculas en las que dirige el nombre
