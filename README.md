@@ -38,20 +38,6 @@ requirements: librerias necesarias para el proyecto.
 - uvicorn
 - wordcloud
 
-
- Images\Deploy.png
-# Proyecto-1-DATAPT10
-
-# Descripción
- Este proyecto tiene como objetivo el desarrollo de un MVP (Minimum Variable Product) que logre poner en marcha un sistema de recomendación.
-
- # Proceso
- El proceso que se siguó fue el de un profesional en la materia (Ingeniaería de Datos/Machine Learning) en su día a día, desde ETL (Extraction - Transform - Load) de la data en crudo, el desarrollo de API, su correcta visualización, análisis de los datos 'limpios' mediante gráficos, y consultas, (EDA) utilizando un criterio enfocado al posterior desarrollo del modelo de recomendación. Prueba y comprobación del funcionamiento de todas las funciones en Render.
-
- !mages\Deploy.png
-
- !Images\FastAPI.png
-
 # Fuente de datos
 
 Dataset:
